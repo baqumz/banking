@@ -1,12 +1,7 @@
 package com.mindhub.banking;
 
 import com.mindhub.banking.models.*;
-import com.mindhub.banking.repositories.ClientRepository;
-import com.mindhub.banking.repositories.ClientLoanRepository;
-import com.mindhub.banking.repositories.AccountRepository;
-import com.mindhub.banking.repositories.LoanRepository;
-import com.mindhub.banking.repositories.TransactionRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.mindhub.banking.repositories.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,21 +13,6 @@ import java.util.List;
 @SpringBootApplication
 public class BankingApplication {
 
-	@Autowired
-	private ClientRepository clientRepository;
-
-	@Autowired
-	private AccountRepository accountRepository;
-
-	@Autowired
-	private TransactionRepository transactionRepository;
-
-	@Autowired
-	private LoanRepository loanRepository;
-
-	@Autowired
-	private ClientLoanRepository clientLoanRepository;
-
 	public static void main(String[] args) {
 		SpringApplication.run(BankingApplication.class, args);
 	}
@@ -40,11 +20,12 @@ public class BankingApplication {
 	@Bean
 	public CommandLineRunner initData(
 			ClientRepository cli
-			,AccountRepository acc
-			,TransactionRepository tra
-			,LoanRepository loa
-			,ClientLoanRepository clil
-	) {
+			, AccountRepository acc
+			, TransactionRepository tra
+			, LoanRepository loa
+			, ClientLoanRepository clil
+			, CardRepository ca
+			) {
 		return(args) -> {
 
 			LocalDate currentDate = LocalDate.now();
@@ -71,6 +52,9 @@ public class BankingApplication {
 			ClientLoan melbaClientLoan1 = new ClientLoan(melba, melbaLoan1, 60, 400000.0);
 			ClientLoan melbaClientLoan2 = new ClientLoan(melba, melbaLoan2, 12, 50000.0);
 
+			Card melbaCard1 = new Card(melba, 123, CardType.DEBIT, CardColor.GOLD);
+			Card melbaCard2 = new Card(melba, 321, CardType.CREDIT, CardColor.TITANIUM);
+
 			melba.addAccount(melbaAccount1);
 			melba.addAccount(melbaAccount2);
 
@@ -83,6 +67,9 @@ public class BankingApplication {
 			melbaLoan1.addClientLoan(melbaClientLoan1);
 			melbaLoan2.addClientLoan(melbaClientLoan2);
 
+			melba.addCard(melbaCard1);
+			melba.addCard(melbaCard2);
+
 			cli.save(melba);
 			acc.save(melbaAccount1);
 			acc.save(melbaAccount2);
@@ -90,6 +77,8 @@ public class BankingApplication {
 			tra.save(melbaTransaction2);
 			loa.save(melbaLoan1);
 			loa.save(melbaLoan2);
+			ca.save(melbaCard1);
+			ca.save(melbaCard2);
 			clil.save(melbaClientLoan1);
 			clil.save(melbaClientLoan2);
 
@@ -109,6 +98,8 @@ public class BankingApplication {
 			ClientLoan otherClientLoan1 = new ClientLoan(other, otherLoan1, 60, 400000.0);
 			ClientLoan otherClientLoan2 = new ClientLoan(other, otherLoan2, 12, 50000.0);
 
+			Card otherCard1 = new Card(other, 345, CardType.CREDIT, CardColor.SILVER);
+
 			other.addAccount(otherAccount1);
 			other.addAccount(otherAccount2);
 
@@ -121,6 +112,8 @@ public class BankingApplication {
 			otherLoan1.addClientLoan(otherClientLoan1);
 			otherLoan2.addClientLoan(otherClientLoan2);
 
+			other.addCard(otherCard1);
+
 			cli.save(other);
 			acc.save(otherAccount1);
 			acc.save(otherAccount2);
@@ -128,6 +121,7 @@ public class BankingApplication {
 			tra.save(otherTransaction2);
 			loa.save(otherLoan1);
 			loa.save(otherLoan2);
+			ca.save(otherCard1);
 			clil.save(otherClientLoan1);
 			clil.save(otherClientLoan2);
 

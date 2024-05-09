@@ -1,7 +1,6 @@
 package com.mindhub.banking.dtos;
 
 import com.mindhub.banking.models.Client;
-import com.mindhub.banking.models.ClientLoan;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,6 +14,7 @@ public class ClientDTO {
     private String email;
     private List<AccountDTO> accounts;
     private List<ClientLoanDTO> clientLoans;
+    private List<CardDTO> cards;
 
     public ClientDTO(Client client) {
         this.id = client.getId();
@@ -26,6 +26,9 @@ public class ClientDTO {
                 .collect(Collectors.toList());
         this.clientLoans = client.getLoans().stream()
                 .map(ClientLoanDTO::new)
+                .collect(Collectors.toList());
+        this.cards = client.getCards().stream()
+                .map(CardDTO::new)
                 .collect(Collectors.toList());
     }
 
@@ -76,4 +79,9 @@ public class ClientDTO {
     public void setClientLoans(List<ClientLoanDTO> clientLoans) {
         this.clientLoans = clientLoans;
     }
+
+    public List<CardDTO> getCards() {
+        return cards;
+    }
+
 }
