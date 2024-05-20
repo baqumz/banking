@@ -10,9 +10,10 @@ createApp({
     },
     methods: {
         getData() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const id = urlParams.get('id');
-            axios.get(`/api/clients/${id}`)
+            //const urlParams = new URLSearchParams(window.location.search);
+            //const id = urlParams.get('id');
+            //axios.get(`/api/clients/${id}`)
+            axios.get(`/api/clients/current`)
                 .then((response) => {
                     console.log("RESPONSE");
                     console.log(response);
@@ -22,6 +23,7 @@ createApp({
                     // handle error
                     this.errorMsg = "Error getting data";
                     this.errorToats.show();
+                    console.log('Error');
                 })
         },
         formatDate(date) {

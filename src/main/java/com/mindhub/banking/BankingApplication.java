@@ -2,16 +2,21 @@ package com.mindhub.banking;
 
 import com.mindhub.banking.models.*;
 import com.mindhub.banking.repositories.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @SpringBootApplication
 public class BankingApplication {
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	public static void main(String[] args) {
 		SpringApplication.run(BankingApplication.class, args);
@@ -37,7 +42,7 @@ public class BankingApplication {
 
 			// Melba client data
 
-			Client melba = new Client("Melba", "Morel", "Morel@gmail.com");
+			Client melba = new Client("Melba", "Morel", "Morel@gmail.com", passwordEncoder.encode("admin"));
 
 			Account melbaAccount1 = new Account("VIN001", currentDate, 5000.0);
 			Account melbaAccount2 = new Account("VIN002", currentDate.plusDays(1), 7500.0);
@@ -84,7 +89,7 @@ public class BankingApplication {
 
 			// Other client
 
-			Client other = new Client("other", "other", "other@gmail.com");
+			Client other = new Client("other", "other", "other@gmail.com", passwordEncoder.encode("admin"));
 
 			Account otherAccount1 = new Account("VIN003", currentDate, 5000.0);
 			Account otherAccount2 = new Account("VIN004", currentDate.plusDays(1), 7500.0);
