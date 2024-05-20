@@ -22,33 +22,18 @@ class WebAuthorization {
 
         http.authorizeRequests()
                 .antMatchers(
-                        "/api/products"
-                        , "/api/register"
-                        ,"/web/index.html"
-                        , "/web/pages/products.html"
-                        , "/web/pages/product.html"
-                        , "/web/pages/product.html"
-                        , "/web/pages/login-signup.html"
-                        , "/web/pages/contact.html"
-                        , "/web/pages/about-us.html"
+                        "/web/index.html"
                         ,"/web/styles/**"
                         , "/web/js/**"
                         , "/web/assets/**"
-                        ,"/api/products/{productId}"
-                        , "/api/product/{id}"
-                        , "/api/customer/current"
-                        ,"/api/cart/**"
+                        ,"/api/clients/{id}"
+                        , "/api/clients/current"
                         ,"/api/login").permitAll()
 
                 .antMatchers(HttpMethod.POST, "/api/cart/**", "/api/process-payment", "/api/customer", "/api/login").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/customers", "/api/cart/**", "/api/current/orders/generate-pdf").permitAll()
 
-                .antMatchers(HttpMethod.POST, "/api/products/create").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.POST, "/api/clients").permitAll()
-                .antMatchers(HttpMethod.PATCH, "/api/products/update/{productId}").hasAuthority("ADMIN")
-                .antMatchers("/web/pages/admin/**").hasAuthority("ADMIN")
-
-                .antMatchers("/web/pages/profile.html", "/web/pages/checkout.html").hasAuthority("CLIENT")
 
                 .antMatchers("/api/logout").authenticated()
 
